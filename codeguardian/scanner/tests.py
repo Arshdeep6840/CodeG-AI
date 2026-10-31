@@ -8,12 +8,14 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APITestCase
+from django.test import override_settings
 
 from accounts.models import Project, Scan, CodeFile
 from scanner.services.file_extractor import detect_framework
 
 User = get_user_model()
 
+@override_settings(CELERY_TASK_ALWAYS_EAGER=True)
 class ScannerTests(APITestCase):
 
     def setUp(self):
@@ -131,7 +133,7 @@ class ScannerTests(APITestCase):
         start_url = reverse("scan-start")
         data = {"project_id": project.id}
         response = self.client.post(start_url, data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
 
         scan_id = response.data["id"]
         scan = Scan.objects.get(id=scan_id)
