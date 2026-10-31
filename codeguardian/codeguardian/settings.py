@@ -34,8 +34,11 @@ SECRET_KEY = env("SECRET_KEY", default='django-insecure-w8&r^%9l-m5xv62wh708!-ny
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
-
+ALLOWED_HOSTS = [
+    "codeg-ai.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 # Application definition
 
@@ -172,4 +175,8 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 # Static files configuration
 STATICFILES_DIRS = [
     BASE_DIR / "static",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://codeg-ai.onrender.com",
 ]
